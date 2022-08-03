@@ -13,6 +13,7 @@ class Contacts {
 
     createContact(contact) {
         contact.id = this.contacts.length + 1;
+        this.contacts.push(contact);
         return contact;
     }
     updateContactById(id, updateContact) {
@@ -31,12 +32,12 @@ class Contacts {
     deleteContact(id) {
         const index = this.contacts.findIndex((contact) => contact.id === id);
         const deletedObj = this.contacts[index];
-        this.contacts.filter((contact) => contact.id !== id);
+        this.contacts = this.contacts.filter((contact) => contact.id !== id);
 
         return deletedObj;
     }
 }
 
-const contacts = new Contacts();
+module.exports = new Contacts();
 
-module.exports = contacts;
+// module.exports = contacts;
