@@ -1,43 +1,71 @@
-class Contacts {
-    constructor() {
-        this.contacts = [];
-    }
+const { Schema, model } = require("mongoose");
 
-    getAllContacts() {
-        return this.contacts;
-    }
+const contactSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 4,
+        maxLength: 30,
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 7,
+        maxLength: 15,
+    },
+});
 
-    getContactById(id) {
-        return this.contacts.find((contact) => contact.id === id);
-    }
+const Contact = model("Contact", contactSchema);
 
-    createContact(contact) {
-        contact.id = this.contacts.length + 1;
-        this.contacts.push(contact);
-        return contact;
-    }
-    updateContactById(id, updateContact) {
-        const index = this.contacts.findIndex((contact) => contact.id === id);
+module.exports = Contact;
 
-        this.contacts[index].name =
-            updateContact.name || this.contacts[index].name;
-        this.contacts[index].email =
-            updateContact.email || this.contacts[index].email;
-        this.contacts[index].phone =
-            updateContact.phone || this.contacts[index].phone;
+// class Contacts {
+//     constructor() {
+//         this.contacts = [];
+//     }
 
-        return this.contacts[index];
-    }
+//     getAllContacts() {
+//         return this.contacts;
+//     }
 
-    deleteContact(id) {
-        const index = this.contacts.findIndex((contact) => contact.id === id);
-        const deletedObj = this.contacts[index];
-        this.contacts = this.contacts.filter((contact) => contact.id !== id);
+//     getContactById(id) {
+//         return this.contacts.find((contact) => contact.id === id);
+//     }
 
-        return deletedObj;
-    }
-}
+//     createContact(contact) {
+//         contact.id = this.contacts.length + 1;
+//         this.contacts.push(contact);
+//         return contact;
+//     }
+//     updateContactById(id, updateContact) {
+//         const index = this.contacts.findIndex((contact) => contact.id === id);
 
-module.exports = new Contacts();
+//         this.contacts[index].name =
+//             updateContact.name || this.contacts[index].name;
+//         this.contacts[index].email =
+//             updateContact.email || this.contacts[index].email;
+//         this.contacts[index].phone =
+//             updateContact.phone || this.contacts[index].phone;
 
-// module.exports = contacts;
+//         return this.contacts[index];
+//     }
+
+//     deleteContact(id) {
+//         const index = this.contacts.findIndex((contact) => contact.id === id);
+//         const deletedObj = this.contacts[index];
+//         this.contacts = this.contacts.filter((contact) => contact.id !== id);
+
+//         return deletedObj;
+//     }
+// }
+
+// module.exports = new Contacts();
+
+// // module.exports = contacts;

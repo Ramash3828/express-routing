@@ -1,43 +1,74 @@
-const contacts = require("./Contacts");
+const Contact = require("./Contacts");
 
 exports.getAllContacts = (req, res) => {
-    res.json(contacts.getAllContacts());
+    Contact.find()
+        .then((contacts) => {
+            res.json(contacts);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ message: "Error Occurred" });
+        });
 };
 
 exports.createContact = (req, res) => {
     const { name, email, phone } = req.body;
-    let contact = contacts.createContact({
+    const contact = new Contact({
         name,
-        phone,
         email,
+        phone,
     });
-    res.json(contact);
+    contact
+        .save()
+        .then((c) => {
+            res.json(c);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ message: "Error Occurred" });
+        });
 };
 
 exports.getContactById = (req, res) => {
-    let { id } = req.params;
-    id = parseInt(id);
-    const contact = contacts.getContactById(id);
-    res.json(contact);
+    const { id } = req.params;
+    Contact.findById(id)
+        .then((contact) => {
+            res.json(contact);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ message: "Error Occurred" });
+        });
 };
 
 exports.updateContact = (req, res) => {
-    let { id } = req.params;
-    id = Number(id);
-    const { name, phone, email } = req.body;
+    const { name, email, phone } = req.body;
+    const { id } = req.params;
 
-    const contact = contacts.updateContactById(id, {
-        name,
-        phone,
-        email,
-    });
-    res.json(contact);
+    Contact.findOneAndUpdate(
+        { _id: id },
+        {
+            $set: { name, email, phone },
+        },
+        { new: true }
+    )
+        .then((contact) => {
+            res.json(contact);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ message: "Error Occurred" });
+        });
 };
 
 exports.deleteContactById = (req, res) => {
-    let { id } = req.params;
-    id = Number(id);
-
-    const contact = contacts.deleteContact(id);
-    res.json(contact);
+    const { id } = req.params;
+    Contact.findOneAndDelete({ _id: id })
+        .then((contact) => {
+            res.json(contact);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ message: "Error Occurred" });
+        });
 };
