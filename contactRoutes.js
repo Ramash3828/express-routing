@@ -9,8 +9,9 @@ const {
 
 Router.get("/", getAllContacts);
 Router.post("/", createContact);
+Router.get("/delete/:id", deleteContactById);
 Router.get("/:id", getContactById);
 Router.put("/:id", updateContact);
-Router.delete("/:id", deleteContactById);
+// Router.delete("/:id", deleteContactById);
 
 module.exports = Router;
