@@ -1,4 +1,5 @@
 const express = require("express");
+const env = require("dotenv").config();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const contactRoutes = require("./contactRoutes");
@@ -17,7 +18,7 @@ app.get("*", (req, res) => {
 
 mongoose
     .connect(
-        `mongodb+srv://userContact:bMkddEI8yE0gomun@cluster0.lsn1nuf.mongodb.net/?retryWrites=true&w=majority`,
+        `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.lsn1nuf.mongodb.net/?retryWrites=true&w=majority`,
         {
             useNewUrlParser: true,
         }
